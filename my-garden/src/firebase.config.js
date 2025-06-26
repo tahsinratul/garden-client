@@ -6,12 +6,12 @@ import { getAuth } from "firebase/auth";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyC_Ne_hN5pIBcnBnTlq4zcAL2wsqEMWDys",
-  authDomain: "gardenia-7cb5d.firebaseapp.com",
-  projectId: "gardenia-7cb5d",
-  storageBucket: "gardenia-7cb5d.firebasestorage.app",
-  messagingSenderId: "455982239856",
-  appId: "1:455982239856:web:450c72714bf5e9252a64b5"
+   apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
 };
 
 // Initialize Firebase

@@ -1,9 +1,14 @@
+import Hero from "../component/Hero";
+import Review from "../component/Review";
+import Success from "../component/Success";
 
 
 const Home = () => {
     return (
         <div>
-            <h1>hello</h1>
+          <Hero/>
+          <Success/>
+          <Review/>
         </div>
     );
 };

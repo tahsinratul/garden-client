@@ -1,72 +1,87 @@
-import React from 'react';
+import { useContext, useState } from "react";
+import { AuthContext } from "../Context/AuthContext";
+import { toast } from "react-toastify";
 
 const ShareTip = () => {
-    return (
-        <div className='p-24'>
-            <div className='p-12 text-center'>
-                <h1  className='text-6xl mb-2'>Share a Tips</h1>
-        
-            <p>Garden gives us pleasure and fresh air, so please add a tips from your library</p>
-            </div>
-            <form>
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
-  <label className="label">Title</label>
-  <input type="text" name='title' className="input w-full" placeholder="Tips title" />
-</fieldset>
-                    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
-  <label className="label">Plant</label>
-  <input type="text" name='plant' className="input w-full" placeholder="Plant type" />
-</fieldset>
-                    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
-  <label className="label">Difficulty level</label>
-  <select name="difficulty"className="input w-full">
+  const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const form = e.target;
+    const tip = {
+      title: form.title.value,
+      plantType: form.plantType.value,
+      difficulty: form.difficulty.value,
+      description: form.description.value,
+      image: form.image.value,
+      category: form.category.value,
+      availability: form.availability.value,
+      userName: user?.displayName,
+      userEmail: user?.email,
+      totalLiked: 0,
+    };
+
+    try {
+      // Replace with actual fetch/axios POST to backend
+      console.log("Submitting Tip: ", tip);
+      toast.success("Garden tip shared successfully!");
+      form.reset();
+    } catch (err) {
+      toast.error("Failed to submit tip.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-300 rounded-3xl">
+      <h2 className="text-2xl font-bold text-green-700 dark:text-green-800 mb-4 text-center">Share a Garden Tip</h2>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
+
+        <input type="text" name="title" placeholder="Tip Title" required className="input w-full" />
+        <input type="text" name="plantType" placeholder="Plant Type / Topic" required className="input w-full" />
+
+        <select name="difficulty" required className="input w-full">
           <option value="">Select Difficulty</option>
           <option value="Easy">Easy</option>
           <option value="Medium">Medium</option>
           <option value="Hard">Hard</option>
         </select>
 
-</fieldset>
-                  <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
-  <label className="label">Image</label>
-  <input type="text" name='image' className="input w-full" placeholder="Image Url" />
-</fieldset>
-                    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
-  <label className="label">Description</label>
-  <input type="text" name='description' className="input w-full" placeholder="Give a description" />
-</fieldset>
-                    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
-  <label className="label">Category</label>
-  <select name="category" className="input w-full">
+        <textarea name="description" placeholder="Description" required className="input w-full" />
+
+        <input type="text" name="image" placeholder="Image URL" required className="input w-full" />
+
+        <select name="category" required className="input w-full">
           <option value="">Select Category</option>
           <option value="Composting">Composting</option>
           <option value="Plant Care">Plant Care</option>
           <option value="Vertical Gardening">Vertical Gardening</option>
           <option value="Balcony Garden">Balcony Garden</option>
         </select>
-</fieldset>
-                    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
-  <label className="label">Availability</label>
-   <select name="availability" className="input w-full">
+
+        <select name="availability" required className="input w-full">
           <option value="">Select Availability</option>
           <option value="Public">Public</option>
           <option value="Hidden">Hidden</option>
         </select>
-</fieldset>
-                    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
-  <label className="label">Title</label>
-  <input type="text" name='title' className="input w-full" placeholder="Tips title" />
-</fieldset>
-                    <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
-  <label className="label">Title</label>
-  <input type="text" name='title' className="input w-full" placeholder="Tips title" />
-</fieldset>
-                </div>
-            </form>
-        </div>
-        
-    );
+
+        <input type="text" name="userName" readOnly value={user?.displayName || ""} className="input bg-gray-100 w-full"/>
+        <input type="email" name="userEmail" readOnly value={user?.email || ""} className="input bg-gray-100 w-full" />
+
+        <button
+          type="submit"
+          className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded"
+          disabled={loading}
+        >
+          {loading ? "Submitting..." : "Submit Tip"}
+        </button>
+      </form>
+    </div>
+  );
 };
 
 export default ShareTip;
