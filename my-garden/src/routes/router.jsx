@@ -7,6 +7,8 @@ import BrowseTips from "../pages/BrowseTips";
 import MyTips from "../pages/MyTips";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
+import UpdateTip from "../pages/UpdateTip";
+import TipDetails from "../pages/TipDetails";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +17,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
     children:[{
         path: '/',
+        loader: ()=> fetch('http://localhost:3000/plants?limit=6'),
         Component: Home
     },
     {
@@ -23,10 +26,12 @@ const router = createBrowserRouter([
     },
     {
       path: '/browsetips',
+      loader: ()=> fetch('http://localhost:3000/plants'),
       Component: BrowseTips
     },
     {
       path: '/mytips',
+      loader: ()=> fetch('http://localhost:3000/plants'),
       Component: MyTips
     },
     {
@@ -36,6 +41,16 @@ const router = createBrowserRouter([
     {
       path: '/register',
       Component: RegisterPage
+    },
+    {
+      path: '/plant/:id',
+      loader: ({params})=> fetch(`http://localhost:3000/plants${params.id}`),
+      Component: UpdateTip
+    },
+    {
+      path: '/plants/plant/:id',
+      loader: ({params})=> fetch(`http://localhost:3000/plants${params.id}`),
+      Component: TipDetails 
     }
 
     ]

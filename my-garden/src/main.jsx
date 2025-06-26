@@ -11,6 +11,6 @@ import AuthProvider from './Context/AuthProvider'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider><AuthProvider><RouterProvider router={router} /></AuthProvider></ThemeProvider>
-    <ToastContainer></ToastContainer>
+    <ToastContainer></ToastContainer>,
   </StrictMode>,
 )

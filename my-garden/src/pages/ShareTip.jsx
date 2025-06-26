@@ -6,40 +6,73 @@ const ShareTip = () => {
   const { user } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleShareTip = e =>{
     e.preventDefault();
-    setLoading(true);
-
     const form = e.target;
-    const tip = {
-      title: form.title.value,
-      plantType: form.plantType.value,
-      difficulty: form.difficulty.value,
-      description: form.description.value,
-      image: form.image.value,
-      category: form.category.value,
-      availability: form.availability.value,
-      userName: user?.displayName,
-      userEmail: user?.email,
-      totalLiked: 0,
-    };
+    const formData = new FormData(form);
+    const newPlant = Object.fromEntries(formData.entries())
+    console.log(newPlant);
 
-    try {
-      // Replace with actual fetch/axios POST to backend
-      console.log("Submitting Tip: ", tip);
-      toast.success("Garden tip shared successfully!");
+    fetch('http://localhost:3000/plants', {
+      method: 'POST',
+      headers :{
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(newPlant)
+    })
+    .then(res => res.json())
+    .then(data =>{
+      if(data.insertedId) {
+      console.log('added successfully',data);
+      toast.success("Tip shared successfully!");
       form.reset();
-    } catch (err) {
-      toast.error("Failed to submit tip.");
-    } finally {
-      setLoading(false);
+    } else {
+      toast.error("Failed to add tip.");
     }
-  };
+  })
+  .catch(err => {
+    toast.error("Error submitting tip.");
+    console.error(err);
+  })
+  .finally(() => {
+    setLoading(false); // ✅ stop loading
+  });
+};
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoading(true);
+
+  //   const form = e.target;
+  //   const tip = {
+  //     title: form.title.value,
+  //     plantType: form.plantType.value,
+  //     difficulty: form.difficulty.value,
+  //     description: form.description.value,
+  //     image: form.image.value,
+  //     category: form.category.value,
+  //     availability: form.availability.value,
+  //     userName: user?.displayName,
+  //     userEmail: user?.email,
+  //     totalLiked: 0,
+  //   };
+
+  //   try {
+  //     // Replace with actual fetch/axios POST to backend
+  //     console.log("Submitting Tip: ", tip);
+  //     toast.success("Garden tip shared successfully!");
+  //     form.reset();
+  //   } catch (err) {
+  //     toast.error("Failed to submit tip.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-300 rounded-3xl">
       <h2 className="text-2xl font-bold text-green-700 dark:text-green-800 mb-4 text-center">Share a Garden Tip</h2>
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
+      <form onSubmit={handleShareTip} className="grid grid-cols-1 gap-4">
 
         <input type="text" name="title" placeholder="Tip Title" required className="input w-full" />
         <input type="text" name="plantType" placeholder="Plant Type / Topic" required className="input w-full" />
