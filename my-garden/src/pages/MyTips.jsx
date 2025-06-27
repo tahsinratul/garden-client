@@ -15,7 +15,7 @@ const MyTips = () => {
       return;
     }
 
-    fetch("https://garden-server-bice.vercel.app/plants")
+    fetch("https://garden-server-phi.vercel.app/plants")
       .then((res) => res.json())
       .then((data) => {
         const filtered = data.filter((tip) => tip.userEmail === user.email);
@@ -32,7 +32,7 @@ const MyTips = () => {
     const confirmDelete = window.confirm("Are you sure you want to delete this tip?");
     if (!confirmDelete) return;
 
-    fetch(`https://garden-server-bice.vercel.app/plants/${id}`, {
+    fetch(`https://garden-server-phi.vercel.app/plants/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())

@@ -13,7 +13,7 @@ const ShareTip = () => {
     const newPlant = Object.fromEntries(formData.entries())
     console.log(newPlant);
 
-    fetch('https://garden-server-bice.vercel.app/plants', {
+    fetch('https://garden-server-phi.vercel.app/plants', {
       method: 'POST',
       headers :{
         'content-type': 'application/json'

@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
     children:[{
         path: '/',
-        loader: ()=> fetch('https://garden-server-bice.vercel.app/plants?limit=6'),
+        loader: ()=> fetch('https://garden-server-phi.vercel.app/plants?limit=6'),
         Component: Home
     },
     {
@@ -27,12 +27,12 @@ const router = createBrowserRouter([
     },
     {
       path: '/browsetips',
-      loader: ()=> fetch('https://garden-server-bice.vercel.app/plants'),
+      loader: ()=> fetch('https://garden-server-phi.vercel.app/plants'),
       Component: BrowseTips
     },
     {
       path: '/mytips',
-      loader: ()=> fetch('https://garden-server-bice.vercel.app/plants'),
+      loader: ()=> fetch('https://garden-server-phi.vercel.app/plants'),
       element: <PrivateRoute><MyTips></MyTips></PrivateRoute>
     },
     {
@@ -45,12 +45,12 @@ const router = createBrowserRouter([
     },
     {
       path: '/update/:id',
-      loader: ({params})=> fetch(`https://garden-server-bice.vercel.app/plants${params.id}`),
+      loader: ({params})=> fetch(`https://garden-server-phi.vercel.app/plants${params.id}`),
       element: <PrivateRoute><UpdateTip></UpdateTip></PrivateRoute>
     },
     {
       path: '/plants/plant/:id',
-      loader: ({params})=> fetch(`https://garden-server-bice.vercel.app/plants${params.id}`),
+      loader: ({params})=> fetch(`https://garden-server-phi.vercel.app/plants${params.id}`),
       element: <PrivateRoute><TipDetails></TipDetails></PrivateRoute> 
     }
 

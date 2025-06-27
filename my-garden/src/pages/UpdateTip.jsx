@@ -11,7 +11,7 @@ const UpdateTip = () => {
 
   useEffect(() => {
     // Fetch tip by ID to prefill the form
-    fetch(`https://garden-server-bice.vercel.app/plants/${id}`)
+    fetch(`https://garden-server-phi.vercel.app/plants/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error("Tip not found");
         return res.json();
@@ -44,7 +44,7 @@ const UpdateTip = () => {
       userEmail: tip.userEmail,
     };
 
-    fetch(`https://garden-server-bice.vercel.app/plants/${id}`, {
+    fetch(`https://garden-server-phi.vercel.app/plants/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updatedTip),

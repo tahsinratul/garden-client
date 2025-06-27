@@ -9,7 +9,7 @@ const TipsDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`https://garden-server-bice.vercel.app/plants`)
+    fetch(`https://garden-server-phi.vercel.app/plants`)
       .then((res) => res.json())
       .then((data) => {
         const found = data.find((item) => item._id === id);
