@@ -37,7 +37,7 @@ const Hero = () => {
                 <h1 className="text-2xl md:text-6xl font-bold text-[#021100]">
               Get good tips By Top Gardeners
             </h1>
-            <button onClick={handleAddTask} className="btn bg-[#14A800] text-[#DBF6D7] text-2xl hover:bg-[#108600]">Share a tip</button>
+            <button onClick={handleAddTask} className="btn bg-[#14A800] text-[#DBF6D7] text-xl hover:bg-[#108600]">Share Tip</button>
             </div>
             <div className="p-3">
               <img className="rounded-2xl w-[50rem]" src={HeroImage} alt="" />
@@ -50,7 +50,7 @@ const Hero = () => {
                 <h1 className="text-2xl md:text-6xl font-bold text-[#021100]">
               Gardening is very passionable work
             </h1>
-            <button onClick={handleAddTask} className="btn bg-[#14A800] text-[#DBF6D7] hover:bg-[#108600] text-2xl">Share a tip</button>
+            <button onClick={handleAddTask} className="btn bg-[#14A800] text-[#DBF6D7] hover:bg-[#108600] text-xl">Share Tip</button>
             </div>
 
             <div className="p-3">
@@ -64,7 +64,7 @@ const Hero = () => {
                 <h1 className="text-2xl md:text-6xl font-bold text-[#021100]">
               Top Tips given by Them
             </h1>
-            <button onClick={handleAddTask} className="btn bg-[#14A800] text-[#DBF6D7] hover:bg-[#108600] text-2xl">Share a tip</button>
+            <button onClick={handleAddTask} className="btn bg-[#14A800] text-[#DBF6D7] hover:bg-[#108600] text-xl">Share Tip</button>
             </div>
             <div>
               <img className="rounded-2xl w-[50rem]" src={HeroImage3} alt="" />

@@ -9,6 +9,7 @@ import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import UpdateTip from "../pages/UpdateTip";
 import TipDetails from "../pages/TipDetails";
+import PrivateRoute from "../Context/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -17,22 +18,22 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
     children:[{
         path: '/',
-        loader: ()=> fetch('http://localhost:3000/plants?limit=6'),
+        loader: ()=> fetch('https://garden-server-bice.vercel.app/plants?limit=6'),
         Component: Home
     },
     {
       path: '/sharetips',
-      Component: ShareTip
+      element: <PrivateRoute><ShareTip></ShareTip></PrivateRoute>
     },
     {
       path: '/browsetips',
-      loader: ()=> fetch('http://localhost:3000/plants'),
+      loader: ()=> fetch('https://garden-server-bice.vercel.app/plants'),
       Component: BrowseTips
     },
     {
       path: '/mytips',
-      loader: ()=> fetch('http://localhost:3000/plants'),
-      Component: MyTips
+      loader: ()=> fetch('https://garden-server-bice.vercel.app/plants'),
+      element: <PrivateRoute><MyTips></MyTips></PrivateRoute>
     },
     {
       path: '/login',
@@ -43,14 +44,14 @@ const router = createBrowserRouter([
       Component: RegisterPage
     },
     {
-      path: '/plant/:id',
-      loader: ({params})=> fetch(`http://localhost:3000/plants${params.id}`),
-      Component: UpdateTip
+      path: '/update/:id',
+      loader: ({params})=> fetch(`https://garden-server-bice.vercel.app/plants${params.id}`),
+      element: <PrivateRoute><UpdateTip></UpdateTip></PrivateRoute>
     },
     {
       path: '/plants/plant/:id',
-      loader: ({params})=> fetch(`http://localhost:3000/plants${params.id}`),
-      Component: TipDetails 
+      loader: ({params})=> fetch(`https://garden-server-bice.vercel.app/plants${params.id}`),
+      element: <PrivateRoute><TipDetails></TipDetails></PrivateRoute> 
     }
 
     ]

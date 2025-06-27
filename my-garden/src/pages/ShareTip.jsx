@@ -13,7 +13,7 @@ const ShareTip = () => {
     const newPlant = Object.fromEntries(formData.entries())
     console.log(newPlant);
 
-    fetch('http://localhost:3000/plants', {
+    fetch('https://garden-server-bice.vercel.app/plants', {
       method: 'POST',
       headers :{
         'content-type': 'application/json'
@@ -39,36 +39,7 @@ const ShareTip = () => {
   });
 };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setLoading(true);
-
-  //   const form = e.target;
-  //   const tip = {
-  //     title: form.title.value,
-  //     plantType: form.plantType.value,
-  //     difficulty: form.difficulty.value,
-  //     description: form.description.value,
-  //     image: form.image.value,
-  //     category: form.category.value,
-  //     availability: form.availability.value,
-  //     userName: user?.displayName,
-  //     userEmail: user?.email,
-  //     totalLiked: 0,
-  //   };
-
-  //   try {
-  //     // Replace with actual fetch/axios POST to backend
-  //     console.log("Submitting Tip: ", tip);
-  //     toast.success("Garden tip shared successfully!");
-  //     form.reset();
-  //   } catch (err) {
-  //     toast.error("Failed to submit tip.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
+ 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-300 rounded-3xl">
       <h2 className="text-2xl font-bold text-green-700 dark:text-green-800 mb-4 text-center">Share a Garden Tip</h2>
