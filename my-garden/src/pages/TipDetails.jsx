@@ -7,29 +7,37 @@ const TipsDetails = () => {
   const navigate = useNavigate();
   const [plant, setPlant] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`https://garden-server-phi.vercel.app/plants`)
-      .then((res) => res.json())
-      .then((data) => {
-        const found = data.find((item) => item._id === id);
-        setPlant(found);
+    const fetchTipDetails = async () => {
+      try {
+        const res = await fetch(`https://garden-server-phi.vercel.app/plants/${id}`);
+        if (!res.ok) {
+          throw new Error("Tip not found");
+        }
+        const data = await res.json();
+        setPlant(data);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+        setPlant(null);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch plant data:", err);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchTipDetails();
   }, [id]);
 
   if (loading) {
     return <p className="text-center mt-10 text-lg">Loading tip details...</p>;
   }
 
-  if (!plant) {
+  if (error || !plant) {
     return (
       <p className="text-center mt-10 text-red-600 text-lg">
-        Plant tip not found.
+        {error || "Tip not found."}
       </p>
     );
   }
@@ -48,6 +56,7 @@ const TipsDetails = () => {
         <div className="flex flex-col md:flex-row gap-6">
           <img
             src={plant.image || "/placeholder.png"}
+            onError={(e) => (e.target.src = "/placeholder.png")}
             alt={plant.title}
             className="w-full md:w-1/3 object-contain rounded-lg"
           />
@@ -55,18 +64,15 @@ const TipsDetails = () => {
             <h1 className="text-3xl font-bold text-[#021100]">{plant.title}</h1>
             <p className="text-[#084300]">{plant.description}</p>
 
-            <div className="flex  gap-3 mt-3 flex-col">
-              <span className="bg-[#99DC8F] text-[#084300] px-4 py-1 rounded-full font-medium w-2/12">
+            <div className="flex gap-3 mt-3 flex-col">
+              <span className="bg-[#99DC8F] text-[#084300] px-4 py-1 rounded-full font-medium w-fit">
                 {plant.plantType}
               </span>
               <span className="text-[#084300] font-bold">
                 Difficulty: {plant.difficulty}
               </span>
-              <span className="text-[#084300]">
-                Category: {plant.category}</span>
-              <span className="text-[#084300]">
-                Availability: {plant.availability}
-              </span>
+              <span className="text-[#084300]">Category: {plant.category}</span>
+              <span className="text-[#084300]">Availability: {plant.availability}</span>
             </div>
           </div>
         </div>
