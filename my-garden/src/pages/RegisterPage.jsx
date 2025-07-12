@@ -1,46 +1,35 @@
-import React, { use } from "react";
+import React, { useContext } from "react";
 import { FaGoogle } from "react-icons/fa";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router"; // ✅ fixed
 import { AuthContext } from "../Context/AuthContext";
-import {toast} from 'react-toastify';
+import { toast } from "react-toastify";
 import {
-  getAuth,
   updateProfile,
   GoogleAuthProvider,
 } from "firebase/auth";
 
 const RegisterPage = () => {
-
-  const {createUser,loginUserIwthGoogle} = use(AuthContext);
+  const { createUser, loginUserIwthGoogle } = useContext(AuthContext); // ✅ fixed
   const location = useLocation();
   const navigate = useNavigate();
 
   const googleProvider = new GoogleAuthProvider();
 
-    const loginUserWithgoogle = () => {
-      loginUserIwthGoogle(googleProvider).then((result) => {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        setTimeout(() => {navigate('/')}, 1000);
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      }).catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
+  const loginUserWithGoogle = () => {
+    loginUserIwthGoogle(googleProvider)
+      .then((result) => {
+        toast.success("Google sign-in successful!");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      })
+      .catch((error) => {
+        console.error("Google Sign-In Error:", error);
+        toast.error("Google login failed!");
       });
-    }
+  };
 
-
-  const handleRegister = e => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
     const name = e.target.name.value;
@@ -51,23 +40,33 @@ const RegisterPage = () => {
     const passRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
 
     if (!passRegex.test(password)) {
-      toast.error('Password must be at least 6 characters long and contain at least one uppercase letter and one lowercase letter.');
+      toast.error(
+        "Password must be at least 6 characters long and contain both uppercase and lowercase letters."
+      );
       return;
     }
 
-    createUser(email, password).then((result) => {
+    try {
+      const result = await createUser(email, password);
       const user = result.user;
-      updateProfile(user, {
-        displayName: name,
-        photoURL: image,});
-      // console.log(user);
-       setTimeout(() => {
-          navigate(location.state?.from?.pathname || "/");
-        }, 1000);
-    });
-  }
 
-    return (<div>
+      await updateProfile(user, {
+        displayName: name,
+        photoURL: image,
+      });
+
+      toast.success("Registration successful!");
+      setTimeout(() => {
+        navigate(location.state?.from?.pathname || "/");
+      }, 1000);
+    } catch (error) {
+      console.error("Registration Error:", error);
+      toast.error("Registration failed. Try again.");
+    }
+  };
+
+  return (
+    <div>
       <div className="hero w-[30rem] mx-auto mt-10">
         <div className="hero-content flex-col">
           <div className="text-center lg:text-left">
@@ -77,27 +76,49 @@ const RegisterPage = () => {
             <div className="card-body">
               <form onSubmit={handleRegister} className="fieldset">
                 <label className="label">Name</label>
-                <input type="text" name="name" className="input" placeholder="John Doe" />
+                <input type="text" name="name" className="input" placeholder="John Doe" required />
+                
                 <label className="label">Image</label>
-                <input type="text" name="image" className="input" placeholder="Your Image URL" />
+                <input type="text" name="image" className="input" placeholder="Your Image URL" required />
+                
                 <label className="label">Email</label>
-                <input type="email" name="email" className="input" placeholder="Email" />
+                <input type="email" name="email" className="input" placeholder="Email" required />
+                
                 <label className="label">Password</label>
                 <input
                   type="password"
-                  className="input"
                   name="password"
+                  className="input"
                   placeholder="Password"
+                  required
                 />
-                <button type="submit" className="btn bg-[#14A800] text-white hover:bg-[#108600] mt-4">Register</button>
+                
+                <button type="submit" className="btn bg-[#14A800] text-white hover:bg-[#108600] mt-4">
+                  Register
+                </button>
               </form>
-              <p>Already have an account?<Link to="/login" className="link link-hover text-[#14A800]">Login</Link></p>
 
+              <p className="mt-2">
+                Already have an account?{" "}
+                <Link to="/login" className="link link-hover text-[#14A800]">
+                  Login
+                </Link>
+              </p>
+
+              <div className="divider">OR</div>
+              <button
+                onClick={loginUserWithGoogle}
+                className="btn bg-[#14A800] text-white hover:bg-[#108600]"
+              >
+                <FaGoogle className="mr-2" />
+                Sign in with Google
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>);
+    </div>
+  );
 };
 
 export default RegisterPage;
