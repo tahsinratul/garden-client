@@ -1,6 +1,6 @@
 #  Garden Management Platform
 
-A modern, full-featured web platform for managing gardena, built using the MERN Stack with Firebase Authentication and Stripe Integration.
+A modern, full-featured web platform for managing garden, built using the MERN Stack with Firebase Authentication and Stripe Integration.
 
 ---
 
